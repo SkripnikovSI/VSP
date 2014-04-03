@@ -1,0 +1,32 @@
+﻿Сборка начата 02.04.2014 23:24:33.
+     1>Проект "C:\Users\Wizado\documents\visual studio 2012\Projects\ASM\ASM\ASM.vcxproj" в узле 2 (целевые объекты Build).
+     1>_YASM:
+         Assembling print.asm
+         Assembling fact.asm
+         Assembling fun.asm
+         Assembling mydiv.asm
+         cmd.exe /C "C:\Users\Wizado\AppData\Local\Temp\tmp5fab432077bb4a8687cc8dadaa301b6a.cmd"
+         "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\"vsyasm.exe -Xvc -f Win32 -g cv8 -o "Debug\\" -rnasm -pnasm   print.asm  fact.asm  fun.asm
+         cmd.exe /C "C:\Users\Wizado\AppData\Local\Temp\tmp7841580c309c4242818a8193a1195980.cmd"
+         "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\"vsyasm.exe -Xvc -f Win32 -o "Debug\\" -rnasm -pnasm   mydiv.asm
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ASM.cpp
+         ASM.cpp
+     1>c:\users\wizado\documents\visual studio 2012\projects\asm\asm\asm.cpp(17): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357): см. объявление "sprintf"
+     1>c:\users\wizado\documents\visual studio 2012\projects\asm\asm\asm.cpp(18): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357): см. объявление "sprintf"
+     1>c:\users\wizado\documents\visual studio 2012\projects\asm\asm\asm.cpp(20): warning C4101: c2: неиспользованная локальная переменная
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Wizado\documents\visual studio 2012\Projects\ASM\Debug\ASM.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Wizado\documents\visual studio 2012\Projects\ASM\Debug\ASM.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Wizado\documents\visual studio 2012\Projects\ASM\Debug\ASM.lib" /MACHINE:X86 Debug\print.obj
+         Debug\fact.obj
+         Debug\fun.obj
+         Debug\mydiv.obj
+         Debug\ASM.obj
+         Debug\stdafx.obj
+         ASM.vcxproj -> C:\Users\Wizado\documents\visual studio 2012\Projects\ASM\Debug\ASM.exe
+     1>Построение проекта "C:\Users\Wizado\documents\visual studio 2012\Projects\ASM\ASM\ASM.vcxproj" завершено (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:01.18
