@@ -86,6 +86,12 @@ struct balance
 	typedef typename balance1<avl, avl::l::h - avl::r::h>::result result;	
 };
 
+template <>
+struct balance<nil>
+{
+	typedef nil result;	
+};
+
 template <typename avl, int key>
 struct add;
 
@@ -117,6 +123,120 @@ struct add<nil, key>
 	typedef node<key, nil, nil> result;	
 };
 
+template <typename avl, int key>
+struct find;
+
+template <typename avl, int key, bool flag>
+struct find1
+{};
+
+template <typename avl, int key>
+struct find1<avl, key, true>
+{
+	static const bool result = true;
+};
+
+template <typename avl, int key>
+struct find1<avl, key, false>
+{
+	static const bool result = key < avl::k ? find<avl::l, key>::result : find<avl::r, key>::result;
+};
+
+template <typename avl, int key>
+struct find
+{
+	static const bool result = find1<avl,key, avl::k == key>::result;
+};
+
+template <int key>
+struct find<nil, key>
+{
+	static const bool result = false;
+};
+
+template <typename avl, typename left> 
+struct get_min
+{
+	static const int result = get_min<left, typename left::l>::result;
+};
+
+template <typename avl> 
+struct get_min<avl, nil>
+{
+	static const int result = avl::k; 
+};
+
+template <typename avl, typename left> 
+struct del_min
+{
+	typedef typename balance<node<avl::k, typename del_min<left, typename left::l>::result, typename avl::r>>::result result;
+};
+
+template <typename avl> 
+struct del_min<avl, nil>
+{
+	typedef typename avl::r result;
+};
+
+template <typename avl, int key, bool flag>
+struct remove1;
+
+template <typename avl, int key>
+struct removeq
+{
+	typedef typename balance<typename remove1<avl, key, (key == avl::k)>::result>::result result;
+};
+
+template <int key>
+struct removeq<nil, key>
+{
+	typedef nil result;
+};
+
+template <typename avl, int key, typename right>
+struct remove21
+{
+	typedef node<get_min<right, typename right::l>::result, typename avl::l, typename del_min<right, typename right::l>::result> result;
+};
+
+template <typename avl, int key>
+struct remove21<avl, key, nil>
+{
+	typedef typename avl::l result;
+};
+
+template <typename avl, int key, bool flag>
+struct remove22
+{};
+
+template <typename avl, int key>
+struct remove22<avl, key, true>
+{
+	typedef node<avl::k, typename removeq<typename avl::l, key>::result, typename avl::r> result;
+};
+
+template <typename avl, int key>
+struct remove22<avl, key, false>
+{
+	typedef node<avl::k, typename avl::l, typename removeq<typename avl::r, key>::result> result;
+};
+
+template <typename avl, int key, bool flag>
+struct remove1
+{};
+
+template <typename avl, int key>
+struct remove1<avl, key, true>
+{
+	typedef typename remove21<avl, key, typename avl::r>::result result;
+};
+
+template <typename avl, int key>
+struct remove1<avl, key, false>
+{
+	typedef typename remove22<avl, key, (key < avl::k)>::result result;
+};
+
 template <typename avl, int i>
 struct tree_maker
 {
@@ -128,7 +248,6 @@ struct tree_maker<avl, 0>
 {
 	typedef typename add<avl, 0>::result result;		
 };
-
 
 template <typename avl>
 void print_type(int depth)
@@ -147,84 +266,23 @@ void print_type<nil>(int depth)
 int main()
 {
 	typedef tree_maker<nil, 10>::result tree;
-	print_type<tree>(0);
+	typedef removeq<tree, 5>::result tree1;
+	typedef removeq<tree1, 6>::result tree2;
+	typedef removeq<tree2, 4>::result tree3;
+	std::cout<<0<<" "<<find<tree3, 0>::result<<"\n";
+	std::cout<<1<<" "<<find<tree3, 1>::result<<"\n";
+	std::cout<<2<<" "<<find<tree3, 2>::result<<"\n";
+	std::cout<<3<<" "<<find<tree3, 3>::result<<"\n";
+	std::cout<<4<<" "<<find<tree3, 4>::result<<"\n";
+	std::cout<<5<<" "<<find<tree3, 5>::result<<"\n";
+	std::cout<<6<<" "<<find<tree3, 6>::result<<"\n";
+	std::cout<<7<<" "<<find<tree3, 7>::result<<"\n";
+	std::cout<<8<<" "<<find<tree3, 8>::result<<"\n";
+	std::cout<<9<<" "<<find<tree3, 9>::result<<"\n";
+	std::cout<<10<<" "<<find<tree3, 10>::result<<"\n";
+	print_type<tree3>(0);
 		int z;
 	std::cin>>z;
 	return 0;
 }
 
-/*
-bool find(avl * root, int key) 
-{
-	if (root == nullptr)
-	{
-		return false;
-	}
-	if (key == root->k)
-	{
-		return true;
-	}
-	return key < root->k ? find(root->l, key) : find(root->r, key);
-}
-
-avl * remove(avl * root, int key)
-{
-	if (root != nullptr)
-	{
-		if (key == root->k)
-		{
-			if (root->r != nullptr)
-			{
-				root->k = get_min(root->r);
-				root->r = del_min(root->r);
-			}
-			else 
-			{
-				avl * garbage = root;
-				root = root->l;
-				garbage->l = nullptr;
-				delete garbage;
-			}
-		}
-		else if (key < root->k)
-		{
-			root->l = remove(root->l, key);
-		}
-		else 
-		{
-			root->r = remove(root->r, key);
-		}
-		if (root != nullptr)
-		{
-			root = root->balance();
-		}
-	}		
-	return root;	
-}
-
-avl * del_min(avl * root)
-{
-	if (root->l != nullptr)
-	{
-		root = del_min(root->l);
-		root = root->balance();
-	}
-	else
-	{
-		avl * garbage = root;
-		root = root->r;
-		garbage->r = nullptr;
-		delete garbage;
-	}
-	return root;
-}
-
-int get_min(avl * root)
-{
-	if (root->l != nullptr)
-	{
-		return get_min(root->l);
-	}
-	return root->k;
-}
-*/

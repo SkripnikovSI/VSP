@@ -85,7 +85,7 @@ avl * del_min(avl * root)
 {
 	if (root->l != nullptr)
 	{
-		root = del_min(root->l);
+		root->l = del_min(root->l);
 		root = root->balance();
 	}
 	else
